@@ -1,0 +1,133 @@
+{
+  "binaries": [
+    {
+      "platform": "Darwin",
+      "arch": "arm64",
+      "displayName": "Internal Test 5",
+      "description": "The internal testing 5 stage of the Humanode network.",
+      "icon": "icon.png",
+      "executablePath": "humanode-peer",
+      "chainspecPath": "chainspec.json",
+      "ngrokPath": "ngrok-wrapper",
+      "humanodeWebsocketTunnelClientPath": "humanode-websocket-tunnel",
+      "files": [
+        {
+          "subUrl": "/latest/binaries/Darwin-arm64/humanode-peer",
+          "destinationSubPath": "humanode-peer",
+          "sha256": "410ad2d642ac7c784341fd36b919c8f6878a201c0a8de9931bacb83bae201c04"
+        },
+        {
+          "subUrl": "/latest/chainspec.json",
+          "destinationSubPath": "chainspec.json",
+          "sha256": "8db6087be7e1e99202c72f2351a154b3955cbc42e0616a8b967388211e678392"
+        },
+        {
+          "subUrl": "/latest/binaries/Darwin-arm64/ngrok",
+          "destinationSubPath": "ngrok",
+          "sha256": "c9e6dfec454f9faec92a13dfd3f3857de982007e3b85987bb875aa0d74ca8101"
+        },
+        {
+          "subUrl": "/latest/binaries/Darwin-arm64/humanode-websocket-tunnel-client",
+          "destinationSubPath": "humanode-websocket-tunnel-client",
+          "sha256": "76d63b77f219e56065cbb183d920a2a4efbc616a82d0788cc53275cea89a5d32"
+        },
+        {
+          "subUrl": "/latest/scripts/humanode-websocket-tunnel",
+          "destinationSubPath": "humanode-websocket-tunnel",
+          "sha256": "514b29731d5ae89097ac6f8158fe9529bec0076cc4fdab40d7aa7de60587fa87"
+        },
+        {
+          "subUrl": "/latest/scripts/ngrok-wrapper",
+          "destinationSubPath": "ngrok-wrapper",
+          "sha256": "f5b7ba7c61cb5f70278fa7b46d1be11f29348650989a795128b5a7a81f9d5ed6"
+        }
+      ]
+    },
+    {
+      "platform": "Darwin",
+      "arch": "x86_64",
+      "displayName": "Internal Test 5",
+      "description": "The internal testing 5 stage of the Humanode network.",
+      "icon": "icon.png",
+      "executablePath": "humanode-peer",
+      "chainspecPath": "chainspec.json",
+      "ngrokPath": "ngrok-wrapper",
+      "humanodeWebsocketTunnelClientPath": "humanode-websocket-tunnel",
+      "files": [
+        {
+          "subUrl": "/latest/binaries/Darwin-x86_64/humanode-peer",
+          "destinationSubPath": "humanode-peer",
+          "sha256": "eb9bdf4dcd7b40cd36e8d33847cdd35e6145056ef8325f76fbb08c6614a616ff"
+        },
+        {
+          "subUrl": "/latest/chainspec.json",
+          "destinationSubPath": "chainspec.json",
+          "sha256": "8db6087be7e1e99202c72f2351a154b3955cbc42e0616a8b967388211e678392"
+        },
+        {
+          "subUrl": "/latest/binaries/Darwin-x86_64/ngrok",
+          "destinationSubPath": "ngrok",
+          "sha256": "80c8fb121d6c93350d84351d9516674f4e20a3e003cdd7dcb4c3e7c48b9c5b07"
+        },
+        {
+          "subUrl": "/latest/binaries/Darwin-x86_64/humanode-websocket-tunnel-client",
+          "destinationSubPath": "humanode-websocket-tunnel-client",
+          "sha256": "110ef86c98a2e76a05d16518294ed2c2faeefdd3314576d7db119bcd20de5bd5"
+        },
+        {
+          "subUrl": "/latest/scripts/humanode-websocket-tunnel",
+          "destinationSubPath": "humanode-websocket-tunnel",
+          "sha256": "514b29731d5ae89097ac6f8158fe9529bec0076cc4fdab40d7aa7de60587fa87"
+        },
+        {
+          "subUrl": "/latest/scripts/ngrok-wrapper",
+          "destinationSubPath": "ngrok-wrapper",
+          "sha256": "f5b7ba7c61cb5f70278fa7b46d1be11f29348650989a795128b5a7a81f9d5ed6"
+        }
+      ]
+    },
+    {
+      "platform": "Linux",
+      "arch": "x86_64",
+      "displayName": "Internal Test 5",
+      "description": "The internal testing 5 stage of the Humanode network.",
+      "icon": "icon.png",
+      "executablePath": "humanode-peer",
+      "chainspecPath": "chainspec.json",
+      "ngrokPath": "ngrok-wrapper",
+      "humanodeWebsocketTunnelClientPath": "humanode-websocket-tunnel",
+      "files": [
+        {
+          "subUrl": "/latest/binaries/Linux-x86_64/humanode-peer",
+          "destinationSubPath": "humanode-peer",
+          "sha256": "2c98a0afb5a23dc50e5fc7038cc2aff5bafff114280cb072b33bee58816829a5"
+        },
+        {
+          "subUrl": "/latest/chainspec.json",
+          "destinationSubPath": "chainspec.json",
+          "sha256": "8db6087be7e1e99202c72f2351a154b3955cbc42e0616a8b967388211e678392"
+        },
+        {
+          "subUrl": "/latest/binaries/Linux-x86_64/ngrok",
+          "destinationSubPath": "ngrok",
+          "sha256": "218d267cd1195334718bafac14bfdf1c19dc95dcf8a24aaa6a1383c21dc86e76"
+        },
+        {
+          "subUrl": "/latest/binaries/Linux-x86_64/humanode-websocket-tunnel-client",
+          "destinationSubPath": "humanode-websocket-tunnel-client",
+          "sha256": "b39c88cf5e7125c852f9727e00a76626c4e817837b62bf9799f397f75b8a6dd1"
+        },
+        {
+          "subUrl": "/latest/scripts/humanode-websocket-tunnel",
+          "destinationSubPath": "humanode-websocket-tunnel",
+          "sha256": "514b29731d5ae89097ac6f8158fe9529bec0076cc4fdab40d7aa7de60587fa87"
+        },
+        {
+          "subUrl": "/latest/scripts/ngrok-wrapper",
+          "destinationSubPath": "ngrok-wrapper",
+          "sha256": "f5b7ba7c61cb5f70278fa7b46d1be11f29348650989a795128b5a7a81f9d5ed6"
+        }
+      ]
+    }
+  ]
+}
