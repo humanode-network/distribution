@@ -1,0 +1,41 @@
+#!/bin/bash
+set -euo pipefail
+
+DEST_DIR="$1"
+BUILD_TARGET_DIR="$2"
+ARCTIFACT_PREFIX="$3"
+
+BUILD_ARCH="${BUILD_ARCH:-"$(rustc -vV | sed -n 's|host: ||p')"}"
+
+if command -v grealpath &>/dev/null; then
+  REALPATH="grealpath"
+else
+  REALPATH="realpath"
+fi
+
+DEST_DIR="$("$REALPATH" "$DEST_DIR")"
+BUILD_TARGET_DIR="$("$REALPATH" "$BUILD_TARGET_DIR")"
+
+EXECUTABLE_EXTENSION=""
+if [[ "${PATHEXT:-""}" != "" ]]; then
+  EXECUTABLE_EXTENSION=".exe"
+fi
+
+cd "$(dirname "${BASH_SOURCE[0]}")/../.."
+
+source build-info/binaries
+
+mkdir -p "$DEST_DIR"
+
+BINARIES_DIR="${DEST_DIR}/binaries"
+ARCHIVES_DIR="${DEST_DIR}/archives"
+
+rm -rf "$BINARIES_DIR" "$ARCHIVES_DIR"
+mkdir -p "$BINARIES_DIR" "$ARCHIVES_DIR"
+
+for BINARY in "${BINARIES[@]}"; do
+  FILE="${BINARY}${EXECUTABLE_EXTENSION}"
+  cp "${BUILD_TARGET_DIR}/${FILE}" "${BINARIES_DIR}/${ARCTIFACT_PREFIX}${FILE}"
+  tar -czvf- -C "$BINARIES_DIR" "${ARCTIFACT_PREFIX}${FILE}" \
+    >"${ARCHIVES_DIR}/${ARCTIFACT_PREFIX}${BINARY}-${BUILD_ARCH}.tar.gz"
+done
