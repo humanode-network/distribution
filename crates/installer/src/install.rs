@@ -1,6 +1,6 @@
 //! Installation logic.
 
-use std::{fs::Permissions, path::PathBuf};
+use std::path::PathBuf;
 
 use digest::Digest;
 use humanode_distribution_schema::manifest::Binary;
@@ -190,7 +190,8 @@ pub async fn install(params: Params) -> Result<(), InstallationError> {
         ];
         for executable in executables {
             let path = base_path.join(executable.0);
-            use std::os::unix::prelude::PermissionsExt;
+
+            use std::{fs::Permissions, os::unix::prelude::PermissionsExt};
             tokio::fs::set_permissions(&path, Permissions::from_mode(0o755))
                 .await
                 .map_err(|error| InstallationError::SetFilePermissions { path, error })?;
