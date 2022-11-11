@@ -1,6 +1,6 @@
 //! Installation logic.
 
-use std::{fs::Permissions, os::unix::prelude::PermissionsExt, path::PathBuf};
+use std::{fs::Permissions, path::PathBuf};
 
 use digest::Digest;
 use humanode_distribution_schema::manifest::Binary;
@@ -180,17 +180,21 @@ pub async fn install(params: Params) -> Result<(), InstallationError> {
         }
     }
 
-    // Set executable permissions.
-    let executables = [
-        binary.executable_path,
-        binary.ngrok_path,
-        binary.humanode_websocket_tunnel_client_path,
-    ];
-    for executable in executables {
-        let path = base_path.join(executable.0);
-        tokio::fs::set_permissions(&path, Permissions::from_mode(0o755))
-            .await
-            .map_err(|error| InstallationError::SetFilePermissions { path, error })?;
+    // Set executable permissions, only on unix systems.
+    #[cfg(unix)]
+    {
+        let executables = [
+            binary.executable_path,
+            binary.ngrok_path,
+            binary.humanode_websocket_tunnel_client_path,
+        ];
+        for executable in executables {
+            let path = base_path.join(executable.0);
+            use std::os::unix::prelude::PermissionsExt;
+            tokio::fs::set_permissions(&path, Permissions::from_mode(0o755))
+                .await
+                .map_err(|error| InstallationError::SetFilePermissions { path, error })?;
+        }
     }
 
     Ok(())
