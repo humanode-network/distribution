@@ -1,0 +1,14 @@
+[package]
+name = "humanode-distribution-resolver"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+humanode-distribution-schema = { path = "../schema" }
+
+async-trait = "0.1"
+futures = "0.3"
+reqwest = "0.11"
+serde = "1.0"
+serde_yaml = "0.9"
+thiserror = "1"

@@ -48,7 +48,7 @@ pub struct Binary {
 /// - Drawin
 /// - Linux
 /// - Windows
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Platform(pub String);
 
 /// The architecture code.
@@ -58,7 +58,7 @@ pub struct Platform(pub String);
 /// Sample values are:
 /// - x86_64
 /// - arm64
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Arch(pub String);
 
 /// Relative path in the context of the file system of the distribution.
