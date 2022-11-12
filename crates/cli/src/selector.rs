@@ -1,9 +1,8 @@
 //! Package selector.
 
-use humanode_distribution_resolver::resolve::Contextualized;
-use humanode_distribution_schema::manifest::Binary;
+use humanode_distribution_schema::manifest::Package;
 
-/// Package/binary selector that's optimizied for the CLI experience.
+/// Package selector that's optimizied for the CLI experience.
 pub struct Selector {
     /// The package display name, optional.
     pub package_display_name: Option<String>,
@@ -24,23 +23,20 @@ pub enum SelectionError {
 }
 
 impl Selector {
-    /// Select a binary from the list.
-    pub fn select(
-        &self,
-        mut binaries: Vec<Contextualized<Binary>>,
-    ) -> Result<Contextualized<Binary>, SelectionError> {
-        let last = binaries.pop().ok_or(SelectionError::NoPackages)?;
+    /// Select a package from the list.
+    pub fn select<T: AsRef<Package>>(&self, mut packages: Vec<T>) -> Result<T, SelectionError> {
+        let last = packages.pop().ok_or(SelectionError::NoPackages)?;
 
         let package_display_name = match self.package_display_name {
             Some(ref package_display_name) => package_display_name,
-            None if !binaries.is_empty() => return Err(SelectionError::NotSpecificEnough),
+            None if !packages.is_empty() => return Err(SelectionError::NotSpecificEnough),
             None => return Ok(last),
         };
 
-        let selected = binaries
+        let selected = packages
             .into_iter()
             .chain(std::iter::once(last))
-            .find(|binary| &binary.value.display_name == package_display_name)
+            .find(|package| &package.as_ref().display_name == package_display_name)
             .ok_or(SelectionError::NotFound)?;
 
         Ok(selected)

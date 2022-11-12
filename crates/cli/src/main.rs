@@ -5,7 +5,7 @@
 
 use clap::{Args, Parser, Subcommand};
 use humanode_distribution_resolver::resolve::Contextualized;
-use humanode_distribution_schema::manifest::Binary;
+use humanode_distribution_schema::manifest::Package;
 
 #[derive(Debug, Parser)]
 #[command(author, version, about, long_about = None)]
@@ -104,7 +104,7 @@ async fn main() {
 /// Common CLI logic to run the resolver from the given args.
 async fn resolve(
     resolution_args: ResolutionArgs,
-) -> Result<Vec<Contextualized<Binary>>, anyhow::Error> {
+) -> Result<Vec<Contextualized<Package>>, anyhow::Error> {
     let ResolutionArgs {
         repo_urls,
         manifest_urls,
@@ -128,24 +128,24 @@ async fn resolve(
 
     let filter = humanode_distribution_resolver::filter::Params { platform, arch };
 
-    let binaries = humanode_distribution_resolver::resolve::resolve(
+    let packages = humanode_distribution_resolver::resolve::resolve(
         client,
         humanode_distribution_resolver::resolve::Params {
             manifest_urls,
             repo_urls,
         },
         humanode_distribution::issue_printer::Stderr,
-        |binary| filter.matches(binary),
+        |package| filter.matches(package),
     )
     .await;
 
-    Ok(binaries)
+    Ok(packages)
 }
 
 fn select(
     args: SelectionArgs,
-    binaries: Vec<Contextualized<Binary>>,
-) -> Result<Contextualized<Binary>, anyhow::Error> {
+    packages: Vec<Contextualized<Package>>,
+) -> Result<Contextualized<Package>, anyhow::Error> {
     let SelectionArgs {
         package_display_name,
     } = args;
@@ -153,7 +153,7 @@ fn select(
     let selector = humanode_distribution::selector::Selector {
         package_display_name,
     };
-    let selected = selector.select(binaries)?;
+    let selected = selector.select(packages)?;
 
     Ok(selected)
 }
@@ -165,10 +165,10 @@ async fn list(args: List) -> Result<(), anyhow::Error> {
         rendering_args,
     } = args;
     let RenderingArgs { renderer } = rendering_args;
-    let binaries = resolve(resolution_args).await?;
+    let packages = resolve(resolution_args).await?;
 
-    for binary in binaries {
-        println!("{}", renderer.render_to_string(&binary.value)?);
+    for package in packages {
+        println!("{}", renderer.render_to_string(&package.value)?);
     }
 
     Ok(())
@@ -182,8 +182,8 @@ async fn eval(args: Eval) -> Result<(), anyhow::Error> {
         rendering_args,
     } = args;
     let RenderingArgs { renderer } = rendering_args;
-    let binaries = resolve(resolution_args).await?;
-    let selected = select(selection_args, binaries)?;
+    let packages = resolve(resolution_args).await?;
+    let selected = select(selection_args, packages)?;
     println!("{}", renderer.render_to_string(&selected.value)?);
     Ok(())
 }
@@ -195,8 +195,8 @@ async fn install(args: Install) -> Result<(), anyhow::Error> {
         selection_args,
         dir,
     } = args;
-    let binaries = resolve(resolution_args).await?;
-    let selected = select(selection_args, binaries)?;
+    let packages = resolve(resolution_args).await?;
+    let selected = select(selection_args, packages)?;
 
     println!(
         "Installing {:?} to {:?}...",
@@ -209,7 +209,7 @@ async fn install(args: Install) -> Result<(), anyhow::Error> {
         client,
         dir,
         base_url: selected.manifest_url,
-        binary: selected.value,
+        package: selected.value,
     };
 
     humanode_distribution_installer::install::install(params).await?;

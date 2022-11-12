@@ -4,7 +4,7 @@ use std::collections::HashSet;
 
 use futures::{pin_mut, Sink, SinkExt};
 use humanode_distribution_schema::{
-    manifest::{Binary, Manifest},
+    manifest::{Manifest, Package},
     repo::Repo,
 };
 use serde::{Deserialize, Serialize};
@@ -42,19 +42,19 @@ pub struct Params {
 /// The context-enhanced value.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Contextualized<T> {
-    /// The manifest URL this binary came from.
+    /// The manifest URL this value came from.
     pub manifest_url: String,
     /// The value that is contextualized.
     pub value: T,
 }
 
-/// Resolve the binaries.
+/// Resolve the packages.
 pub async fn resolve(
     client: reqwest::Client,
     params: Params,
     issues: impl Sink<ResolutionError>,
-    filter: impl Fn(&Contextualized<Binary>) -> bool,
-) -> Vec<Contextualized<Binary>> {
+    filter: impl Fn(&Contextualized<Package>) -> bool,
+) -> Vec<Contextualized<Package>> {
     let Params {
         manifest_urls,
         repo_urls,
@@ -80,7 +80,7 @@ pub async fn resolve(
         manifest_urls.extend(repo.manifest_urls.into_iter().map(|item| item.url));
     }
 
-    let mut binaries = Vec::new();
+    let mut packages = Vec::new();
 
     for url in manifest_urls {
         let manifest: Manifest = match load_meta(&client, &url).await {
@@ -96,17 +96,23 @@ pub async fn resolve(
             }
         };
 
-        binaries.extend(
+        packages.extend(
             manifest
-                .binaries
+                .packages
                 .into_iter()
-                .map(|binary| Contextualized {
+                .map(|package| Contextualized {
                     manifest_url: url.clone(),
-                    value: binary,
+                    value: package,
                 })
                 .filter(&filter),
         );
     }
 
-    binaries
+    packages
+}
+
+impl<T> AsRef<T> for Contextualized<T> {
+    fn as_ref(&self) -> &T {
+        &self.value
+    }
 }
