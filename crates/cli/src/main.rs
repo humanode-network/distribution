@@ -94,6 +94,7 @@ struct Install {
 
 #[tokio::main]
 async fn main() -> ExitCode {
+    color_eyre::install().unwrap();
     let cli = Cli::parse();
 
     let result = match cli.command {
@@ -104,7 +105,6 @@ async fn main() -> ExitCode {
 
     if let Err(error) = result {
         eprintln!("Error: {error:?}");
-        eprintln!("{}", error.backtrace());
         return ExitCode::FAILURE;
     }
 
@@ -114,7 +114,7 @@ async fn main() -> ExitCode {
 /// Common CLI logic to run the resolver from the given args.
 async fn resolve(
     resolution_args: ResolutionArgs,
-) -> Result<Vec<Contextualized<Package>>, anyhow::Error> {
+) -> Result<Vec<Contextualized<Package>>, eyre::Error> {
     let ResolutionArgs {
         repo_urls,
         manifest_urls,
@@ -155,7 +155,7 @@ async fn resolve(
 fn select(
     args: SelectionArgs,
     packages: Vec<Contextualized<Package>>,
-) -> Result<Contextualized<Package>, anyhow::Error> {
+) -> Result<Contextualized<Package>, eyre::Error> {
     let SelectionArgs {
         package_display_name,
     } = args;
@@ -169,7 +169,7 @@ fn select(
 }
 
 /// List command.
-async fn list(args: List) -> Result<(), anyhow::Error> {
+async fn list(args: List) -> Result<(), eyre::Error> {
     let List {
         resolution_args,
         rendering_args,
@@ -185,7 +185,7 @@ async fn list(args: List) -> Result<(), anyhow::Error> {
 }
 
 /// Eval command.
-async fn eval(args: Eval) -> Result<(), anyhow::Error> {
+async fn eval(args: Eval) -> Result<(), eyre::Error> {
     let Eval {
         resolution_args,
         selection_args,
@@ -199,7 +199,7 @@ async fn eval(args: Eval) -> Result<(), anyhow::Error> {
 }
 
 /// Install command.
-async fn install(args: Install) -> Result<(), anyhow::Error> {
+async fn install(args: Install) -> Result<(), eyre::Error> {
     let Install {
         resolution_args,
         selection_args,
