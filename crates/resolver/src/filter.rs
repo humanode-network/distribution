@@ -1,8 +1,6 @@
 //! The filtering logic.
 
-use humanode_distribution_schema::manifest::Binary;
-
-use crate::resolve::Contextualized;
+use humanode_distribution_schema::manifest::Package;
 
 /// Filter params.
 pub struct Params {
@@ -13,18 +11,17 @@ pub struct Params {
 }
 
 impl Params {
-    /// Check if the binariy matches the filter.
-    pub fn matches(&self, item: &Contextualized<Binary>) -> bool {
-        item.value.platform.0 == self.platform && item.value.arch.0 == self.arch
+    /// Check if the package matches the filter.
+    pub fn matches(&self, item: impl AsRef<Package>) -> bool {
+        let package = item.as_ref();
+        package.platform.0 == self.platform && package.arch.0 == self.arch
     }
 
-    /// Filter the input binaries with the filtering params.
-    pub fn filter<'a>(
+    /// Filter the input packages with the filtering params.
+    pub fn filter<'a, T: AsRef<Package>>(
         &'a self,
-        binaries: impl IntoIterator<Item = Contextualized<Binary>> + 'a,
-    ) -> impl Iterator<Item = Contextualized<Binary>> + 'a {
-        binaries
-            .into_iter()
-            .filter(|binaries| self.matches(binaries))
+        items: impl IntoIterator<Item = T> + 'a,
+    ) -> impl Iterator<Item = T> + 'a {
+        items.into_iter().filter(|item| self.matches(item))
     }
 }
