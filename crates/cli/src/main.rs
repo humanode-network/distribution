@@ -3,6 +3,8 @@
 #![allow(missing_docs)]
 #![allow(clippy::missing_docs_in_private_items)]
 
+use std::process::ExitCode;
+
 use clap::{Args, Parser, Subcommand};
 use humanode_distribution_resolver::resolve::Contextualized;
 use humanode_distribution_schema::manifest::Package;
@@ -91,14 +93,22 @@ struct Install {
 }
 
 #[tokio::main]
-async fn main() {
+async fn main() -> ExitCode {
     let cli = Cli::parse();
 
-    match cli.command {
-        Command::List(args) => list(args).await.unwrap(),
-        Command::Eval(args) => eval(args).await.unwrap(),
-        Command::Install(args) => install(args).await.unwrap(),
+    let result = match cli.command {
+        Command::List(args) => list(args).await,
+        Command::Eval(args) => eval(args).await,
+        Command::Install(args) => install(args).await,
+    };
+
+    if let Err(error) = result {
+        eprintln!("Error: {error:?}");
+        eprintln!("{}", error.backtrace());
+        return ExitCode::FAILURE;
     }
+
+    ExitCode::SUCCESS
 }
 
 /// Common CLI logic to run the resolver from the given args.
