@@ -6,14 +6,12 @@ edition = "2021"
 [dependencies]
 humanode-distribution-schema = { path = "../schema" }
 
-async-trait = "0.1"
 bytes = "1"
 digest = "0.10"
 futures = "0.3"
 hex = "0.4"
 reqwest = "0.11"
 serde = "1.0"
-serde_yaml = "0.9"
 sha2 = "0.10"
 thiserror = "1"
 tokio = { version = "1", features = ["fs"] }
