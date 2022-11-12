@@ -19,7 +19,7 @@ impl Renderer {
         &self,
         mut writer: impl std::io::Write,
         package: &Package,
-    ) -> Result<(), anyhow::Error> {
+    ) -> Result<(), eyre::Error> {
         match self {
             Self::DisplayName => writer
                 .write_all(package.display_name.as_bytes())
@@ -33,7 +33,7 @@ impl Renderer {
     }
 
     /// Render the package into a string according to the renderer config.
-    pub fn render_to_string(&self, package: &Package) -> Result<String, anyhow::Error> {
+    pub fn render_to_string(&self, package: &Package) -> Result<String, eyre::Error> {
         let mut buf = Vec::new();
         self.render(&mut buf, package)?;
         Ok(String::from_utf8(buf)?)
