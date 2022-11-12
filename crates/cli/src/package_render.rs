@@ -1,6 +1,6 @@
 //! Package render.
 
-use humanode_distribution_schema::manifest::Binary;
+use humanode_distribution_schema::manifest::Package;
 
 /// Rendering params.
 #[derive(Debug, Clone, clap::ValueEnum)]
@@ -18,7 +18,7 @@ impl Renderer {
     pub fn render(
         &self,
         mut writer: impl std::io::Write,
-        package: &Binary,
+        package: &Package,
     ) -> Result<(), anyhow::Error> {
         match self {
             Self::DisplayName => writer
@@ -33,7 +33,7 @@ impl Renderer {
     }
 
     /// Render the package into a string according to the renderer config.
-    pub fn render_to_string(&self, package: &Binary) -> Result<String, anyhow::Error> {
+    pub fn render_to_string(&self, package: &Package) -> Result<String, anyhow::Error> {
         let mut buf = Vec::new();
         self.render(&mut buf, package)?;
         Ok(String::from_utf8(buf)?)

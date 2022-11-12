@@ -5,17 +5,18 @@ use serde::{Deserialize, Serialize};
 /// A single manifest.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Manifest {
-    /// Binaries provided by this manifest.
-    pub binaries: Vec<Binary>,
+    /// Packages provided by this manifest.
+    #[serde(rename = "binaries")]
+    pub packages: Vec<Package>,
 }
 
-/// A single binary package.
+/// A single package.
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Binary {
-    /// The platform this binary is intended for.
+pub struct Package {
+    /// The platform this package is intended for.
     pub platform: Platform,
-    /// The architecture this binary is intended for.
+    /// The architecture this package is intended for.
     pub arch: Arch,
 
     /// The name to use when displaying the package.

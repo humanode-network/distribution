@@ -3,7 +3,7 @@
 use std::path::PathBuf;
 
 use digest::Digest;
-use humanode_distribution_schema::manifest::Binary;
+use humanode_distribution_schema::manifest::Package;
 use url::Url;
 
 use crate::http::{self, FileLoadError};
@@ -103,7 +103,7 @@ pub struct Params {
     /// The base URL to use for resolving the URLs.
     pub base_url: String,
     /// The package to install.
-    pub binary: Binary,
+    pub package: Package,
 }
 
 /// Prepare the directories, then download the files and set proper file
@@ -113,7 +113,7 @@ pub async fn install(params: Params) -> Result<(), InstallationError> {
         client,
         dir,
         base_url,
-        binary,
+        package,
     } = params;
 
     let base_path = PathBuf::from(dir);
@@ -123,7 +123,7 @@ pub async fn install(params: Params) -> Result<(), InstallationError> {
     })?;
 
     // Download the files.
-    for file in binary.files {
+    for file in package.files {
         let path = base_path.join(&file.destination_sub_path.0);
 
         let expected_hash =
@@ -184,9 +184,9 @@ pub async fn install(params: Params) -> Result<(), InstallationError> {
     #[cfg(unix)]
     {
         let executables = [
-            binary.executable_path,
-            binary.ngrok_path,
-            binary.humanode_websocket_tunnel_client_path,
+            package.executable_path,
+            package.ngrok_path,
+            package.humanode_websocket_tunnel_client_path,
         ];
         for executable in executables {
             let path = base_path.join(executable.0);
