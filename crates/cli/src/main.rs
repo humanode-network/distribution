@@ -29,6 +29,10 @@ enum Command {
 
 #[derive(Debug, Args)]
 struct SourcesArgs {
+    /// Load the built-in sources.
+    #[arg(long, default_value_t = true)]
+    load_built_in_sources: bool,
+
     /// Load config files.
     #[arg(long, default_value_t = true)]
     load_config_files: bool,
@@ -148,12 +152,27 @@ async fn load_configs(all_sources: &mut humanode_distribution_config::Sources) {
 /// the configs.
 async fn prepare_sources(sources_args: SourcesArgs) -> humanode_distribution_config::Sources {
     let SourcesArgs {
+        load_built_in_sources,
         load_config_files,
         repo_urls,
         manifest_urls,
     } = sources_args;
 
     let mut sources = humanode_distribution_config::Sources::default();
+
+    if load_built_in_sources {
+        let extend = |what: &mut Vec<String>, with_what: &[&str]| {
+            what.extend(with_what.iter().map(|&item| item.to_owned()));
+        };
+        extend(
+            &mut sources.repo_urls,
+            humanode_distribution_built_in_sources::REPO_URLS,
+        );
+        extend(
+            &mut sources.manifest_urls,
+            humanode_distribution_built_in_sources::MANIFEST_URLS,
+        );
+    }
 
     if load_config_files {
         load_configs(&mut sources).await;

@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+humanode-distribution-built-in-sources = { path = "../built-in-sources" }
 humanode-distribution-config = { path = "../config" }
 humanode-distribution-detection = { path = "../detection" }
 humanode-distribution-installer = { path = "../installer" }
