@@ -5,7 +5,7 @@
 
 use std::process::ExitCode;
 
-use clap::{Args, Parser, Subcommand};
+use clap::{ArgAction, Args, Parser, Subcommand};
 use humanode_distribution_config::load::SourcesLoadingResult;
 use humanode_distribution_resolver::resolve::Contextualized;
 use humanode_distribution_schema::manifest::Package;
@@ -31,13 +31,13 @@ enum Command {
 
 #[derive(Debug, Args)]
 struct SourcesArgs {
-    /// Load the built-in sources.
-    #[arg(long, default_value_t = true)]
-    load_built_in_sources: bool,
+    /// Do not load the built-in sources.
+    #[arg(long, action = ArgAction::SetFalse, default_value_t = true)]
+    no_load_built_in_sources: bool,
 
-    /// Load config files.
-    #[arg(long, default_value_t = true)]
-    load_config_files: bool,
+    /// Do not load the config files.
+    #[arg(long, action = ArgAction::SetFalse, default_value_t = true)]
+    no_load_config_files: bool,
 
     /// The list of URLs to fetch the repos from.
     #[arg(short, long)]
@@ -161,15 +161,15 @@ async fn load_configs(all_sources: &mut humanode_distribution_config::Sources) {
 /// the configs.
 async fn prepare_sources(sources_args: SourcesArgs) -> humanode_distribution_config::Sources {
     let SourcesArgs {
-        load_built_in_sources,
-        load_config_files,
+        no_load_built_in_sources,
+        no_load_config_files,
         repo_urls,
         manifest_urls,
     } = sources_args;
 
     let mut sources = humanode_distribution_config::Sources::default();
 
-    if load_built_in_sources {
+    if !no_load_built_in_sources {
         let extend = |what: &mut Vec<String>, with_what: &[&str]| {
             what.extend(with_what.iter().map(|&item| item.to_owned()));
         };
@@ -183,7 +183,7 @@ async fn prepare_sources(sources_args: SourcesArgs) -> humanode_distribution_con
         );
     }
 
-    if load_config_files {
+    if !no_load_config_files {
         load_configs(&mut sources).await;
     }
 
