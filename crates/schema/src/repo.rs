@@ -11,7 +11,6 @@ pub struct Repo {
 }
 
 /// A single manifest reference.
-
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ManifestUrl {
