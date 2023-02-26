@@ -95,6 +95,7 @@ pub async fn sources(path: impl AsRef<Path>) -> SourcesLoadingResult {
     SourcesLoadingResult { sources, errors }
 }
 
+/// Load the Repo URLs.
 async fn repo_urls(path: impl AsRef<Path>) -> (Vec<String>, Vec<LoadingError>) {
     load(path, |file: crate::schemas::repos::Format| {
         file.repo_urls.into_iter().map(|item| item.url)
@@ -102,6 +103,7 @@ async fn repo_urls(path: impl AsRef<Path>) -> (Vec<String>, Vec<LoadingError>) {
     .await
 }
 
+/// Load the Manifest URLs.
 async fn manifest_urls(path: impl AsRef<Path>) -> (Vec<String>, Vec<LoadingError>) {
     load(path, |file: crate::schemas::manifest_urls::Format| {
         file.manifest_urls.into_iter().map(|item| item.url)
@@ -109,6 +111,8 @@ async fn manifest_urls(path: impl AsRef<Path>) -> (Vec<String>, Vec<LoadingError
     .await
 }
 
+/// Load the data from the given path, extracting the values with the provided
+/// processor.
 async fn load<T, I>(
     path: impl AsRef<Path>,
     process_parsed: impl Fn(T) -> I,

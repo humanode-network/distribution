@@ -2,6 +2,7 @@
 
 use std::path::PathBuf;
 
+/// The subdirectories to look for the configs at.
 const SUBDIRS: &[&str] = &["humanode-launcher"];
 
 /// The various paths to attempt loading the configs from.
