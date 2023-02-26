@@ -6,6 +6,7 @@
 use std::process::ExitCode;
 
 use clap::{Args, Parser, Subcommand};
+use humanode_distribution_config::load::SourcesLoadingResult;
 use humanode_distribution_resolver::resolve::Contextualized;
 use humanode_distribution_schema::manifest::Package;
 
@@ -27,7 +28,11 @@ enum Command {
 }
 
 #[derive(Debug, Args)]
-struct ResolutionArgs {
+struct SourcesArgs {
+    /// Load config files.
+    #[arg(long, default_value_t = true)]
+    load_config_files: bool,
+
     /// The list of URLs to fetch the repos from.
     #[arg(short, long)]
     repo_urls: Vec<String>,
@@ -35,6 +40,12 @@ struct ResolutionArgs {
     /// The list of URLs to fetch the manifests from; in addition to repos.
     #[arg(short, long)]
     manifest_urls: Vec<String>,
+}
+
+#[derive(Debug, Args)]
+struct ResolutionArgs {
+    #[clap(flatten)]
+    sources_args: SourcesArgs,
 
     /// The platform to use, current system's platform will be used by default.
     #[arg(short, long)]
@@ -111,16 +122,63 @@ async fn main() -> ExitCode {
     ExitCode::SUCCESS
 }
 
+// Load the configs, print encountered errors.
+async fn load_configs(all_sources: &mut humanode_distribution_config::Sources) {
+    let config_paths = humanode_distribution_config::paths::configs();
+    for config_path in config_paths {
+        let SourcesLoadingResult { sources, errors } =
+            humanode_distribution_config::load::sources(config_path).await;
+        for error in errors.all() {
+            // Skip the directories that were not found.
+            let is_boring_error = matches!(
+                &error,
+                humanode_distribution_config::load::LoadingError::DirReading(inner, _)
+                    if inner.kind() == std::io::ErrorKind::NotFound
+            );
+            if is_boring_error {
+                continue;
+            }
+            eprintln!("Loading the config files: {}", error);
+        }
+        all_sources.extend(sources);
+    }
+}
+
+/// Common CLI logic to process the source args and load the sources from
+/// the configs.
+async fn prepare_sources(sources_args: SourcesArgs) -> humanode_distribution_config::Sources {
+    let SourcesArgs {
+        load_config_files,
+        repo_urls,
+        manifest_urls,
+    } = sources_args;
+
+    let mut sources = humanode_distribution_config::Sources::default();
+
+    if load_config_files {
+        load_configs(&mut sources).await;
+    }
+
+    sources.repo_urls.extend(repo_urls);
+    sources.manifest_urls.extend(manifest_urls);
+
+    sources
+}
+
 /// Common CLI logic to run the resolver from the given args.
 async fn resolve(
     resolution_args: ResolutionArgs,
 ) -> Result<Vec<Contextualized<Package>>, eyre::Error> {
     let ResolutionArgs {
-        repo_urls,
-        manifest_urls,
+        sources_args,
         platform,
         arch,
     } = resolution_args;
+
+    let humanode_distribution_config::Sources {
+        manifest_urls,
+        repo_urls,
+    } = prepare_sources(sources_args).await;
 
     // Detect platform and arch if not specified.
     let (platform, arch) = match (platform, arch) {

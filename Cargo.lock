@@ -485,6 +485,7 @@ dependencies = [
  "color-eyre",
  "eyre",
  "futures",
+ "humanode-distribution-config",
  "humanode-distribution-detection",
  "humanode-distribution-installer",
  "humanode-distribution-resolver",
