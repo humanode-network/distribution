@@ -499,6 +499,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "humanode-distribution-built-in-sources"
+version = "0.1.0"
+
+[[package]]
 name = "humanode-distribution-config"
 version = "0.1.0"
 dependencies = [
