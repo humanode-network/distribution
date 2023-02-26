@@ -1,5 +1,7 @@
 //! The configuration files and utilities.
 
+use serde::{Deserialize, Serialize};
+
 pub mod load;
 pub mod paths;
 pub mod schemas;
@@ -22,7 +24,7 @@ pub mod dirs {
 ///
 /// This is not intended to be directly persisted, but rather [`load`]ed from
 /// the various config files.
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 pub struct Sources {
     /// A list of Manifest URLs.
     pub manifest_urls: Vec<String>,

@@ -25,6 +25,8 @@ enum Command {
     Eval(Eval),
     /// Install the distribution into a given directory.
     Install(Install),
+    /// Display the sources.
+    Sources(Sources),
 }
 
 #[derive(Debug, Args)]
@@ -107,6 +109,12 @@ struct Install {
     dir: String,
 }
 
+#[derive(Debug, Parser)]
+struct Sources {
+    #[clap(flatten)]
+    sources_args: SourcesArgs,
+}
+
 #[tokio::main]
 async fn main() -> ExitCode {
     color_eyre::install().unwrap();
@@ -116,6 +124,7 @@ async fn main() -> ExitCode {
         Command::List(args) => list(args).await,
         Command::Eval(args) => eval(args).await,
         Command::Install(args) => install(args).await,
+        Command::Sources(args) => sources(args).await,
     };
 
     if let Err(error) = result {
@@ -301,5 +310,13 @@ async fn install(args: Install) -> Result<(), eyre::Error> {
 
     humanode_distribution_installer::install::install(params).await?;
 
+    Ok(())
+}
+
+/// Sources command.
+async fn sources(args: Sources) -> Result<(), eyre::Error> {
+    let Sources { sources_args } = args;
+    let sources = prepare_sources(sources_args).await;
+    println!("{}", &serde_yaml::to_string(&sources)?);
     Ok(())
 }
