@@ -1,11 +1,11 @@
-//! The repo.
+//! The `manifestUrls.d` files content.
 
 use serde::{Deserialize, Serialize};
 
-/// A single repo.
+/// The structure of a file in the `manifestUrls.d`.
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Repo {
+pub struct Format {
     /// A list of URLs each serving a manifest.
     pub manifest_urls: Vec<ManifestUrl>,
 }
