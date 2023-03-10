@@ -2,6 +2,7 @@
 name = "humanode-distribution-config"
 version = "0.1.0"
 edition = "2021"
+publish = false
 
 [dependencies]
 dirs = "4"

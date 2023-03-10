@@ -2,6 +2,7 @@
 name = "humanode-distribution-detection"
 version = "0.1.0"
 edition = "2021"
+publish = false
 
 [target.'cfg(not(windows))'.dependencies]
 libc = "0.2"
