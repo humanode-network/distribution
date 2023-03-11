@@ -11,6 +11,3 @@ rustflags = [
   "-Aclippy::cargo-common-metadata",
   "-Aclippy::derive-partial-eq-without-eq",
 ]
-
-[build]
-rustc-wrapper = ".cargo/rustc-static"
