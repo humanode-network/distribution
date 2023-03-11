@@ -11,3 +11,6 @@ rustflags = [
   "-Aclippy::cargo-common-metadata",
   "-Aclippy::derive-partial-eq-without-eq",
 ]
+
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]
