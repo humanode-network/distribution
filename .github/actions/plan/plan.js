@@ -21,7 +21,7 @@ const allPlatforms = {
       CARGO_INCREMENTAL: "0",
     },
     cacheKey: "windows-amd64",
-    isBroken: true,
+    isBroken: false,
   },
   macos: {
     name: "macOS (amd64)",
