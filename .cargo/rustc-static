@@ -14,4 +14,10 @@ if [[ "${RUSTC_STATIC_DEBUG:-}" == "true" ]]; then
   env >"rustc-static-debug/env-$(date -Iseconds)-$RANDOM"
 fi
 
+# Allow prepending the args with another rustc wrapper.
+# Useful for sccache, etc.
+if [[ "${RUSTC_STATIC_WRAPPER:-}" != "" ]]; then
+  ARGS=("$RUSTC_STATIC_WRAPPER" "${ARGS[@]}")
+fi
+
 exec "${ARGS[@]}"
