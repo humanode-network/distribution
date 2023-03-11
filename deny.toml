@@ -178,29 +178,6 @@ allow = []
 # List of crates to deny
 deny = []
 
-# List of features to allow/deny
-# Each entry the name of a crate and a version range. If version is
-# not specified, all versions will be matched.
-#[[bans.features]]
-#name = "reqwest"
-# Features to not allow
-#deny = ["json"]
-# Features to allow
-#allow = [
-#    "rustls",
-#    "__rustls",
-#    "__tls",
-#    "hyper-rustls",
-#    "rustls",
-#    "rustls-pemfile",
-#    "rustls-tls-webpki-roots",
-#    "tokio-rustls",
-#    "webpki-roots",
-#]
-# If true, the allowed features must exactly match the enabled feature set. If
-# this is set there is no point setting `deny`
-#exact = true
-
 # Certain crates/versions that will be skipped when doing duplicate detection.
 skip = []
 # Similarly to `skip` allows you to skip certain crates during duplicate
@@ -208,6 +185,20 @@ skip = []
 # dependencies starting at the specified crate, up to a certain depth, which is
 # by default infinite.
 skip-tree = []
+
+# List of features to allow/deny
+# Each entry the name of a crate and a version range. If version is
+# not specified, all versions will be matched.
+[[bans.features]]
+name = "reqwest"
+# Features to not allow
+deny = ["default-tls", "native-tls"]
+# Features to allow
+allow = []
+# If true, the allowed features must exactly match the enabled feature set. If
+# this is set there is no point setting `deny`
+exact = false
+
 
 # This section is considered when running `cargo deny check sources`.
 # More documentation about the 'sources' section can be found here:

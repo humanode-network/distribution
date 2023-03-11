@@ -8,7 +8,7 @@ publish = false
 humanode-distribution-schema = { path = "../schema" }
 
 futures = "0.3"
-reqwest = "0.11"
+reqwest = { version = "0.11", default-features = false }
 serde = "1.0"
 serde_yaml = "0.9"
 thiserror = "1"
