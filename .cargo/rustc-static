@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ARGS=("$@")
+
+# Add static linkage flag to all binaries.
+if [[ "${CARGO_BIN_NAME:-}" != "" ]]; then
+  ARGS+=(-C target-feature=+crt-static)
+fi
+
+# Debug-print the env vars if needed.
+if [[ "${RUSTC_STATIC_DEBUG:-}" == "true" ]]; then
+  mkdir -p "rustc-static-debug" >&2
+  env >"rustc-static-debug/env-$(date -Iseconds)-$RANDOM"
+fi
+
+exec "${ARGS[@]}"
