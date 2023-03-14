@@ -1,6 +1,18 @@
 #!/bin/bash
 set -euo pipefail
 
-BINARIES=(
-  humanode-distribution
-)
+list_binaries() {
+  cargo metadata --format-version 1 |
+    jq -r '
+      .workspace_members as $ws |
+      .packages[] | select(.id as $id | $ws | contains([$id])) |
+      .targets[] | select(.kind == ["bin"]) |
+      .name
+    '
+}
+
+BINARIES=()
+
+for BINARY in $(list_binaries); do
+  BINARIES+=("$BINARY")
+done
