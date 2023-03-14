@@ -117,6 +117,7 @@ struct Sources {
 
 #[tokio::main]
 async fn main() -> ExitCode {
+    tracing_subscriber::fmt::init();
     color_eyre::install().unwrap();
     let cli = Cli::parse();
 
