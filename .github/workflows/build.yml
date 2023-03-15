@@ -119,7 +119,7 @@ jobs:
 
       - name: Archive the binaries for release
         env:
-          TARGET_DIR: ${{ matrix.plan.platform.buildTargetDir || 'release' }}
+          TARGET_DIR: ${{ matrix.plan.platform.buildTargetDir && format('{0}/release', matrix.plan.platform.buildTargetDir) || 'release' }}
         run: |
           ./utils/build/package \
             target/build-package \
