@@ -24,3 +24,4 @@ EOF
 cat ./.cargo/config.toml
 
 .github/scripts/zig.sh
+.github/scripts/cargo-zigbuild.sh
