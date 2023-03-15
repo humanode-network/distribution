@@ -29,6 +29,8 @@ case "$(uname -s)" in
 "Win"* | "MINGW"*)
   INSTALL_PATH="C:/cargo-zigbuild"
   extract
+  # Add to PATH.
+  printf "%s\n" "$INSTALL_PATH" >>"$GITHUB_PATH"
   ;;
 *)
   INSTALL_PATH="/usr/local/bin"
