@@ -17,10 +17,13 @@ maybe_sudo() {
 }
 
 extract() {
-  maybe_sudo mkdir -p "$INSTALL_PATH"
   if [[ "$TARGET_FILE" == *.zip ]]; then
-    maybe_sudo unzip -o -d "$INSTALL_PATH" "$TARGET_FILE"
+    EXTRACT_DIR="$(mktemp -d)"
+    unzip -o -d "$EXTRACT_DIR" "$TARGET_FILE"
+    maybe_sudo mkdir -p "$(dirname "$INSTALL_PATH")"
+    maybe_sudo mv "$EXTRACT_DIR/$(basename "$TARGET_FILE" .zip)" "$INSTALL_PATH"
   else
+    maybe_sudo mkdir -p "$INSTALL_PATH"
     maybe_sudo tar -C "$INSTALL_PATH" --strip-components=1 -xf "$TARGET_FILE"
   fi
 }
