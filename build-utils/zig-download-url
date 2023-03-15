@@ -14,7 +14,7 @@ case "$SYSTEM" in
 "Darwin")
   SYSTEM="macos"
   ;;
-"Win*" | "MINGW*")
+"Win"* | "MINGW"*)
   SYSTEM="windows"
   ;;
 *)
