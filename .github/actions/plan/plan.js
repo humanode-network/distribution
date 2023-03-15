@@ -12,6 +12,7 @@ const allPlatforms = {
     cacheKey: "ubuntu-amd64",
     isBroken: false,
     buildTarget: "x86_64-unknown-linux-gnu.2.17",
+    buildTargetDir: "x86_64-unknown-linux-gnu",
     installTargets: [], // native
   },
   windows: {
@@ -25,6 +26,7 @@ const allPlatforms = {
     cacheKey: "windows-amd64",
     isBroken: false,
     buildTarget: null, // native
+    buildTargetDir: null, // native
     installTargets: [], // native
   },
   macos: {
@@ -36,6 +38,7 @@ const allPlatforms = {
     cacheKey: "macos-amd64",
     isBroken: false,
     buildTarget: null, // native
+    buildTargetDir: null, // native
     installTargets: [], // native
   },
   macos_aarch64: {
@@ -47,6 +50,7 @@ const allPlatforms = {
     cacheKey: "macos-aarch64",
     isBroken: false,
     buildTarget: null, // native
+    buildTargetDir: null, // native
     installTargets: [], // native
   },
 };
