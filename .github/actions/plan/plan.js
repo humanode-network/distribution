@@ -13,7 +13,7 @@ const allPlatforms = {
     isBroken: false,
     buildTarget: "x86_64-unknown-linux-gnu.2.17",
     buildTargetDir: "x86_64-unknown-linux-gnu",
-    installTargets: [], // native
+    extraTargetsToInstall: [], // native
   },
   windows: {
     name: "Windows",
@@ -27,7 +27,7 @@ const allPlatforms = {
     isBroken: false,
     buildTarget: null, // native
     buildTargetDir: null, // native
-    installTargets: [], // native
+    extraTargetsToInstall: [], // native
   },
   macos: {
     name: "macOS (amd64)",
@@ -39,7 +39,7 @@ const allPlatforms = {
     isBroken: false,
     buildTarget: null, // native
     buildTargetDir: null, // native
-    installTargets: [], // native
+    extraTargetsToInstall: [], // native
   },
   macos_aarch64: {
     name: "macOS (aarch64)",
@@ -51,7 +51,7 @@ const allPlatforms = {
     isBroken: false,
     buildTarget: null, // native
     buildTargetDir: null, // native
-    installTargets: [], // native
+    extraTargetsToInstall: [], // native
   },
 };
 

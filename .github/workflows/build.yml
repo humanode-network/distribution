@@ -90,6 +90,11 @@ jobs:
         run: rustup show
         timeout-minutes: 10
 
+      - name: Install additional rust toolchains
+        run: rustup target add ${{ join(matrix.plan.platform.extraTargetsToInstall, ' ') }}
+        if: ${{ join(matrix.plan.platform.extraTargetsToInstall, ' ') != '' }}
+        timeout-minutes: 10
+
       - name: Prepare the build environment
         run: ${{ matrix.plan.platform.buildEnvScript }}
 
