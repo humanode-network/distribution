@@ -6,6 +6,7 @@ ZIG_BASE_URL="https://ziglang.org/download"
 
 SYSTEM="$(uname -s)"
 PLATFORM="$(uname -m)"
+EXT=".tar.xz"
 
 case "$SYSTEM" in
 "Linux")
@@ -16,6 +17,7 @@ case "$SYSTEM" in
   ;;
 "Win"* | "MINGW"*)
   SYSTEM="windows"
+  EXT=".zip"
   ;;
 *)
   printf "Unsupported system: %s\n" "$SYSTEM" >&2
@@ -29,6 +31,6 @@ case "$PLATFORM" in
   ;;
 esac
 
-URL="$ZIG_BASE_URL/$ZIG_VERSION/zig-$SYSTEM-$PLATFORM-$ZIG_VERSION.tar.xz"
+URL="${ZIG_BASE_URL}/${ZIG_VERSION}/zig-${SYSTEM}-${PLATFORM}-${ZIG_VERSION}${EXT}"
 
 printf "%s\n" "$URL"

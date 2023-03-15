@@ -18,7 +18,11 @@ maybe_sudo() {
 
 extract() {
   maybe_sudo mkdir -p "$INSTALL_PATH"
-  maybe_sudo tar -C "$INSTALL_PATH" --strip-components=1 -xf "$TARGET_FILE"
+  if [[ "$TARGET_FILE" == *.zip ]]; then
+    maybe_sudo unzip -o -d "$INSTALL_PATH" "$TARGET_FILE"
+  else
+    maybe_sudo tar -C "$INSTALL_PATH" -xvf "$TARGET_FILE"
+  fi
 }
 
 case "$(uname -s)" in
