@@ -27,10 +27,8 @@ extract() {
 
 case "$(uname -s)" in
 "Win"* | "MINGW"*)
-  INSTALL_PATH="C:/cargo-zigbuild"
+  INSTALL_PATH="$HOME/.cargo/bin"
   extract
-  # Add to PATH.
-  printf "%s\n" "$INSTALL_PATH" >>"$GITHUB_PATH"
   ;;
 *)
   INSTALL_PATH="/usr/local/bin"
