@@ -90,6 +90,11 @@ jobs:
         run: rustup show
         timeout-minutes: 10
 
+      - name: Install additional rust toolchains
+        run: rustup target add ${{ join(matrix.plan.platform.extraTargetsToInstall, ' ') }}
+        if: ${{ join(matrix.plan.platform.extraTargetsToInstall, ' ') != '' }}
+        timeout-minutes: 10
+
       - name: Prepare the build environment
         run: ${{ matrix.plan.platform.buildEnvScript }}
 
@@ -108,13 +113,17 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: ${{ matrix.plan.mode.cargoCommand }}
-          args: ${{ matrix.plan.mode.cargoArgs }}
+          args: >
+            ${{ matrix.plan.mode.cargoArgs }}
+            ${{ matrix.plan.platform.buildTarget && format('--target {0}', matrix.plan.platform.buildTarget) || '' }}
 
       - name: Archive the binaries for release
+        env:
+          TARGET_DIR: ${{ matrix.plan.platform.buildTargetDir && format('{0}/release', matrix.plan.platform.buildTargetDir) || 'release' }}
         run: |
           ./utils/build/package \
             target/build-package \
-            target/release \
+            "target/$TARGET_DIR" \
             ""
 
       - name: Upload release archive

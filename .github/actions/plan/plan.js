@@ -11,6 +11,9 @@ const allPlatforms = {
     env: {},
     cacheKey: "ubuntu-amd64",
     isBroken: false,
+    buildTarget: "x86_64-unknown-linux-gnu.2.17",
+    buildTargetDir: "x86_64-unknown-linux-gnu",
+    extraTargetsToInstall: [], // native
   },
   windows: {
     name: "Windows",
@@ -22,6 +25,9 @@ const allPlatforms = {
     },
     cacheKey: "windows-amd64",
     isBroken: false,
+    buildTarget: null, // native
+    buildTargetDir: null, // native
+    extraTargetsToInstall: [], // native
   },
   macos: {
     name: "macOS (amd64)",
@@ -31,6 +37,9 @@ const allPlatforms = {
     env: {},
     cacheKey: "macos-amd64",
     isBroken: false,
+    buildTarget: null, // native
+    buildTargetDir: null, // native
+    extraTargetsToInstall: [], // native
   },
   macos_aarch64: {
     name: "macOS (aarch64)",
@@ -40,6 +49,9 @@ const allPlatforms = {
     env: {},
     cacheKey: "macos-aarch64",
     isBroken: false,
+    buildTarget: null, // native
+    buildTargetDir: null, // native
+    extraTargetsToInstall: [], // native
   },
 };
 
@@ -55,10 +67,10 @@ const codeModes = {
     cargoCommand: "test",
     cargoCacheKey: "test",
   },
-  build: {
-    name: "build",
-    cargoCommand: "build",
-    cargoCacheKey: "build",
+  zigbuild: {
+    name: "zigbuild",
+    cargoCommand: "zigbuild",
+    cargoCacheKey: "zigbuild",
   },
   fmt: {
     name: "fmt",
@@ -78,10 +90,10 @@ const codeModes = {
 
 const buildModes = {
   build: {
-    name: "build",
-    cargoCommand: "build",
+    name: "zigbuild",
+    cargoCommand: "zigbuild",
     cargoArgs: "--release",
-    cargoCacheKey: "release-build",
+    cargoCacheKey: "release-zigbuild",
   },
 };
 

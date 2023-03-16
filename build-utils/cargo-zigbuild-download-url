@@ -1,0 +1,27 @@
+#!/bin/bash
+set -euo pipefail
+
+VERSION="0.16.3"
+BASE_URL="https://github.com/rust-cross/cargo-zigbuild/releases"
+
+DESCRIPTOR="$(uname -s)-$(uname -m)"
+
+case "$DESCRIPTOR" in
+"Linux-x86_64")
+  PACKAGE="x86_64-unknown-linux-musl.tar.gz"
+  ;;
+"Darwin-x86_64" | "Darwin-arm64")
+  PACKAGE="apple-darwin.tar.gz"
+  ;;
+"Win"* | "MINGW"*)
+  PACKAGE="windows-x64.zip"
+  ;;
+*)
+  printf "Unsupported system: %s\n" "$DESCRIPTOR" >&2
+  exit 1
+  ;;
+esac
+
+URL="$BASE_URL/download/v$VERSION/cargo-zigbuild-v$VERSION.$PACKAGE"
+
+printf "%s\n" "$URL"

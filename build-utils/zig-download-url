@@ -1,0 +1,36 @@
+#!/bin/bash
+set -euo pipefail
+
+ZIG_VERSION="0.10.1"
+ZIG_BASE_URL="https://ziglang.org/download"
+
+SYSTEM="$(uname -s)"
+PLATFORM="$(uname -m)"
+EXT=".tar.xz"
+
+case "$SYSTEM" in
+"Linux")
+  SYSTEM="linux"
+  ;;
+"Darwin")
+  SYSTEM="macos"
+  ;;
+"Win"* | "MINGW"*)
+  SYSTEM="windows"
+  EXT=".zip"
+  ;;
+*)
+  printf "Unsupported system: %s\n" "$SYSTEM" >&2
+  exit 1
+  ;;
+esac
+
+case "$PLATFORM" in
+"arm64")
+  PLATFORM="aarch64"
+  ;;
+esac
+
+URL="${ZIG_BASE_URL}/${ZIG_VERSION}/zig-${SYSTEM}-${PLATFORM}-${ZIG_VERSION}${EXT}"
+
+printf "%s\n" "$URL"
