@@ -32,9 +32,7 @@ impl SourcesLoadingErrors {
 
     /// Iterate over all of the errors.
     pub fn all(self) -> impl Iterator<Item = LoadingError> {
-        self.manifest_urls
-            .into_iter()
-            .chain(self.repo_urls.into_iter())
+        self.manifest_urls.into_iter().chain(self.repo_urls)
     }
 }
 
