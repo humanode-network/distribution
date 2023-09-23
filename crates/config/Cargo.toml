@@ -5,7 +5,7 @@ edition = "2021"
 publish = false
 
 [dependencies]
-dirs = "4"
+dirs = "5"
 serde = { version = "1", features = ["derive"] }
 serde_yaml = "0.9"
 thiserror = "1"
