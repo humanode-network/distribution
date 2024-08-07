@@ -65,13 +65,13 @@ pub struct Arch(pub String);
 /// Relative path in the context of the file system of the distribution.
 ///
 /// Must be evaludated relative to the directory of the distribution root, or
-/// in the context where the ditribution root is the process' current directory.
+/// in the context where the distribution root is the process' current directory.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LocalPath(pub String);
 
 /// The URL.
 ///
-/// Have to evaluted against the Manifest URL using the Base URL algorithm,
+/// Have to evaluated against the Manifest URL using the Base URL algorithm,
 /// see <https://developer.mozilla.org/en-US/docs/Web/API/URL/URL>.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Url(pub String);

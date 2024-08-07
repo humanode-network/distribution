@@ -2,7 +2,7 @@
 
 use humanode_distribution_schema::manifest::Package;
 
-/// Package selector that's optimizied for the CLI experience.
+/// Package selector that's optimized for the CLI experience.
 pub struct Selector {
     /// The package display name, optional.
     pub package_display_name: Option<String>,
