@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::http::load_meta;
 
-/// An issue that occured during resolution.
+/// An issue that occurred during resolution.
 #[derive(Debug)]
 pub struct ResolutionError {
     /// The URL that was attempted.

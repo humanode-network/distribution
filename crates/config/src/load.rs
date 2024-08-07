@@ -11,7 +11,7 @@ use crate::Sources;
 pub struct SourcesLoadingResult {
     /// The loaded sources.
     pub sources: Sources,
-    /// The errors that have occured while loading the sources.
+    /// The errors that have occurred while loading the sources.
     pub errors: SourcesLoadingErrors,
 }
 
@@ -25,7 +25,7 @@ pub struct SourcesLoadingErrors {
 }
 
 impl SourcesLoadingErrors {
-    /// Returns `true` if no errors have occured.
+    /// Returns `true` if no errors have occurred.
     pub fn is_empty(&self) -> bool {
         self.manifest_urls.is_empty() && self.repo_urls.is_empty()
     }
@@ -39,12 +39,12 @@ impl SourcesLoadingErrors {
 impl std::fmt::Display for SourcesLoadingErrors {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if self.is_empty() {
-            f.write_str("no errors occured while loading the source configs")
+            f.write_str("no errors occurred while loading the source configs")
         } else {
             let errors_num = self.manifest_urls.len() + self.repo_urls.len();
             write!(
                 f,
-                "{errors_num} errors have occured while loading the source configs"
+                "{errors_num} errors have occurred while loading the source configs"
             )
         }
     }

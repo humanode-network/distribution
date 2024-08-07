@@ -23,7 +23,7 @@ impl Sink<ResolutionError> for Stderr {
         item: ResolutionError,
     ) -> Result<(), Self::Error> {
         let ResolutionError { url, error } = item;
-        eprintln!("An error occured during resolution at {url}: {error}");
+        eprintln!("An error occurred during resolution at {url}: {error}");
         Ok(())
     }
 
