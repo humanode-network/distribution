@@ -4,7 +4,7 @@ set -euo pipefail
 setenv() {
   local KEY="$1"
   local VAL="$2"
-  printf "%s=%s\n" "$KEY" "$VAL" >"$GITHUB_ENV"
+  printf "%s=%s\n" "$KEY" "$VAL" >>"$GITHUB_ENV"
 }
 
 case "$(uname -s)" in
