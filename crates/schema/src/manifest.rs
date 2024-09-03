@@ -1,5 +1,7 @@
 //! The manifest.
 
+use std::collections::HashMap;
+
 use serde::{Deserialize, Serialize};
 
 /// A single manifest.
@@ -16,6 +18,8 @@ pub struct Manifest {
 pub struct Package {
     /// The platform this package is intended for.
     pub platform: Platform,
+    /// The specializations of the platform this package is intended for.
+    pub platform_specializations: PlatformSpecializations,
     /// The architecture this package is intended for.
     pub arch: Arch,
 
@@ -51,6 +55,16 @@ pub struct Package {
 /// - Windows
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Platform(pub String);
+
+/// The platform specialization codes.
+///
+/// Platform-dependent values.
+///
+/// Sample values are:
+/// - on Linux:
+///   - libc: glibc | musl
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq)]
+pub struct PlatformSpecializations(pub HashMap<String, String>);
 
 /// The architecture code.
 ///
