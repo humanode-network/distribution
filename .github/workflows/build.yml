@@ -86,7 +86,7 @@ jobs:
         timeout-minutes: 10
 
       - name: Run cargo ${{ matrix.plan.mode.cargoCommand }}
-        run: cargo ${{ matrix.plan.mode.cargoCommand }} ${{ matrix.plan.mode.cargoArgs }}
+        run: cargo ${{ matrix.plan.mode.cargoCommand }} ${{ matrix.plan.mode.cargoArgs }} ${{ matrix.plan.mode.passZigbuildTarget && matrix.plan.platform.buildTarget && format('--target={0}', matrix.plan.platform.buildTarget) || '' }}
 
       - name: Archive the binaries for release
         env:

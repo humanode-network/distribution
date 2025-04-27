@@ -4,6 +4,7 @@ export type Mode = {
   cargoArgs: string;
   cargoCacheKey: string;
   platformIndependent?: true;
+  passZigbuildTarget?: true;
 };
 
 export type Modes = Record<string, Mode>;
@@ -26,6 +27,7 @@ export const code = {
     cargoCommand: "zigbuild",
     cargoArgs: "--locked --workspace",
     cargoCacheKey: "zigbuild",
+    passZigbuildTarget: true,
   },
   fmt: {
     name: "cargo fmt",
@@ -49,5 +51,6 @@ export const build = {
     cargoCommand: "zigbuild",
     cargoArgs: "--locked --workspace --release",
     cargoCacheKey: "release-zigbuild",
+    passZigbuildTarget: true,
   },
 } satisfies Modes;
