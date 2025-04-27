@@ -1,0 +1,2 @@
+# https://github.com/crate-ci/typos#false-positives
+[default.extend-identifiers]
