@@ -10,6 +10,9 @@ case "$DESCRIPTOR" in
 "Linux-x86_64")
   PACKAGE="x86_64-unknown-linux-musl.tar.gz"
   ;;
+"Linux-aarch64")
+  PACKAGE="aarch64-unknown-linux-musl.tar.gz"
+  ;;
 "Darwin-x86_64" | "Darwin-arm64")
   PACKAGE="apple-darwin.tar.gz"
   ;;
