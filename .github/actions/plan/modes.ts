@@ -10,34 +10,34 @@ export type Modes = Record<string, Mode>;
 
 export const code = {
   clippy: {
-    name: "clippy",
+    name: "cargo clippy",
     cargoCommand: "clippy",
-    cargoArgs: "--workspace --all-targets -- -D warnings",
+    cargoArgs: "--locked --workspace --all-targets -- -D warnings",
     cargoCacheKey: "clippy",
   },
   test: {
-    name: "test",
+    name: "cargo test",
     cargoCommand: "test",
-    cargoArgs: "--workspace",
+    cargoArgs: "--locked --workspace",
     cargoCacheKey: "test",
   },
   build: {
-    name: "zigbuild",
+    name: "cargo zigbuild",
     cargoCommand: "zigbuild",
-    cargoArgs: "--workspace",
+    cargoArgs: "--locked --workspace",
     cargoCacheKey: "zigbuild",
   },
   fmt: {
-    name: "fmt",
+    name: "cargo fmt",
     cargoCommand: "fmt",
     cargoArgs: "-- --check",
     platformIndependent: true,
     cargoCacheKey: "code",
   },
   docs: {
-    name: "doc",
+    name: "cargo doc",
     cargoCommand: "doc",
-    cargoArgs: "--workspace --document-private-items",
+    cargoArgs: "--locked --workspace --document-private-items",
     platformIndependent: true,
     cargoCacheKey: "doc",
   },
@@ -45,9 +45,9 @@ export const code = {
 
 export const build = {
   build: {
-    name: "zigbuild",
+    name: "cargo zigbuild",
     cargoCommand: "zigbuild",
-    cargoArgs: "--workspace --release",
+    cargoArgs: "--locked --workspace --release",
     cargoCacheKey: "release-zigbuild",
   },
 } satisfies Modes;

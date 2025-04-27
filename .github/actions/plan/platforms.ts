@@ -1,8 +1,9 @@
 export type RunnerOS =
-  | "ubuntu-22.04"
-  | "windows-latest"
-  | "macos-14"
-  | "macos-14-large";
+  | "ubuntu-24.04"
+  | "ubuntu-24.04-arm"
+  | "macos-15" // arm
+  | "macos-15-large" // intel
+  | "windows-latest";
 
 export type Platform = {
   name: string;
@@ -26,53 +27,66 @@ const buildEnvScriptPath = (script: string) =>
 
 // All the platforms that we support, and their respective settings.
 export const all = {
-  ubuntu2204: {
-    name: "Ubuntu",
-    os: "ubuntu-22.04",
+  ubuntu2404_amd64: {
+    name: "Ubuntu 24.04 (amd64)",
+    os: "ubuntu-24.04",
     buildEnvScript: buildEnvScriptPath("ubuntu.sh"),
     essential: true,
     env: {},
-    cacheKey: "ubuntu2204-amd64",
-    artifactMarker: null,
+    cacheKey: "ubuntu2404-amd64",
+    artifactMarker: "amd64-ubuntu2404",
     isBroken: false,
     buildTarget: "x86_64-unknown-linux-gnu.2.17",
     buildTargetDir: "x86_64-unknown-linux-gnu",
     extraTargetsToInstall: [], // native
   },
-  windows: {
-    name: "Windows",
+  ubuntu2404_aarch64: {
+    name: "Ubuntu 24.04 (aarch64)",
+    os: "ubuntu-24.04-arm",
+    buildEnvScript: buildEnvScriptPath("ubuntu.sh"),
+    essential: false,
+    env: {},
+    cacheKey: "ubuntu2404-aarch64",
+    artifactMarker: "aarch64-ubuntu2404",
+    isBroken: false,
+    buildTarget: "x86_64-unknown-linux-gnu.2.17",
+    buildTargetDir: "x86_64-unknown-linux-gnu",
+    extraTargetsToInstall: [], // native
+  },
+  windows_amd64: {
+    name: "Windows (amd64)",
     os: "windows-latest",
     buildEnvScript: buildEnvScriptPath("windows.sh"),
     essential: false,
     env: {},
     cacheKey: "windows-amd64",
-    artifactMarker: null,
+    artifactMarker: "amd64",
     isBroken: false,
     buildTarget: null, // native
     buildTargetDir: null, // native
     extraTargetsToInstall: [], // native
   },
-  macos14amd64: {
-    name: "macOS 14 (amd64)",
-    os: "macos-14-large",
+  macos15_amd64: {
+    name: "macOS 15 (amd64)",
+    os: "macos-15-large",
     buildEnvScript: buildEnvScriptPath("macos.sh"),
     essential: false,
     env: {},
-    cacheKey: "macos-14-amd64",
-    artifactMarker: null,
+    cacheKey: "macos15-amd64",
+    artifactMarker: "amd64",
     isBroken: false,
     buildTarget: null, // native
     buildTargetDir: null, // native
     extraTargetsToInstall: [], // native
   },
-  macos14aarch64: {
-    name: "macOS 14 (aarch64)",
-    os: "macos-14",
+  macos15_aarch64: {
+    name: "macOS 15 (aarch64)",
+    os: "macos-15",
     buildEnvScript: buildEnvScriptPath("macos.sh"),
     essential: false,
     env: {},
-    cacheKey: "macos-14-aarch64",
-    artifactMarker: null,
+    cacheKey: "macos15-aarch64",
+    artifactMarker: "aarch64",
     isBroken: false,
     buildTarget: null, // native
     buildTargetDir: null, // native
@@ -81,4 +95,4 @@ export const all = {
 } satisfies Platforms;
 
 // A platform for running things that are platform-independent.
-export const core = all.ubuntu2204 satisfies Platform;
+export const core = all.ubuntu2404_amd64 satisfies Platform;
