@@ -555,6 +555,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "humanode-distribution-nodejs-bindings"
+version = "0.1.0"
+dependencies = [
+ "humanode-distribution-built-in-sources",
+ "humanode-distribution-config",
+ "humanode-distribution-detection",
+ "humanode-distribution-installer",
+ "humanode-distribution-resolver",
+ "humanode-distribution-schema",
+]
+
+[[package]]
 name = "humanode-distribution-resolver"
 version = "0.1.0"
 dependencies = [
