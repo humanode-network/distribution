@@ -36,7 +36,7 @@ pub enum InstallationError {
     /// Failed to parse the file URL relative to the base URL.
     #[error("invalid file URL {url}: {error}")]
     ParseFileUrl {
-        /// The URL we atempted to parse.
+        /// The URL we attempted to parse.
         url: String,
         /// The base URL we used.
         base_url: Url,

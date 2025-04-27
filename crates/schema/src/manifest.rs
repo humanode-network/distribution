@@ -46,7 +46,7 @@ pub struct Package {
 /// Values returned by `uname -s`.
 ///
 /// Sample values are:
-/// - Drawin
+/// - Darwin
 /// - Linux
 /// - Windows
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq)]
