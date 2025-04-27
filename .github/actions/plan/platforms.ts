@@ -49,8 +49,8 @@ export const all = {
     cacheKey: "ubuntu2404-aarch64",
     artifactMarker: "aarch64-ubuntu2404",
     isBroken: false,
-    buildTarget: "x86_64-unknown-linux-gnu.2.17",
-    buildTargetDir: "x86_64-unknown-linux-gnu",
+    buildTarget: "aarch64-unknown-linux-gnu.2.17",
+    buildTargetDir: "aarch64-unknown-linux-gnu",
     extraTargetsToInstall: [], // native
   },
   windows_amd64: {
