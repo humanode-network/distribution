@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-VERSION="0.19.1"
+VERSION="0.20.0"
 BASE_URL="https://github.com/rust-cross/cargo-zigbuild/releases"
 
 DESCRIPTOR="$(uname -s)-$(uname -m)"
