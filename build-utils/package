@@ -21,7 +21,7 @@ if [[ "${PATHEXT:-""}" != "" ]]; then
   EXECUTABLE_EXTENSION=".exe"
 fi
 
-cd "$(dirname "${BASH_SOURCE[0]}")/../.."
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
 source build-info/binaries
 
