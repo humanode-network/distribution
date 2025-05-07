@@ -116,7 +116,6 @@ jobs:
         with:
           upload_url: ${{ needs.draft-release.outputs.upload-url }}
           asset_path: target/build-package/archives/*.tar.gz
-          asset_name: ${{ env.ARTIFACT_NAME }}
 
   publish-release:
     needs:
