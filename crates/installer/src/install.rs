@@ -171,6 +171,7 @@ pub async fn install(params: Params) -> Result<(), InstallationError> {
                 error,
             })?;
 
+        #[allow(deprecated)]
         if hash.as_slice() != expected_hash.as_slice() {
             return Err(InstallationError::FileHashMismatch {
                 path: path.clone(),
