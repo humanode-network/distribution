@@ -11,6 +11,10 @@ allow = [
   "Unicode-3.0",
 ]
 
+[[licenses.exceptions]]
+name = "foldhash"
+allow = ["Zlib"]
+
 [[licenses.clarify]]
 name = "ring"
 version = "*"
