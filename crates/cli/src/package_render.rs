@@ -26,7 +26,7 @@ impl Renderer {
                 .map_err(Into::into),
             Self::Yaml => {
                 writer.write_all(b"---\n")?;
-                serde_yaml::to_writer(writer, package).map_err(Into::into)
+                serde_yaml_bw::to_writer(writer, package).map_err(Into::into)
             }
             Self::Json => serde_json::to_writer_pretty(writer, package).map_err(Into::into),
         }

@@ -10,5 +10,5 @@ humanode-distribution-schema = { path = "../schema" }
 futures = "0.3"
 reqwest = { version = "0.12", default-features = false }
 serde = "1.0"
-serde_yaml = "0.9"
+serde_yaml_bw = "2"
 thiserror = "2"

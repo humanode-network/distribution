@@ -11,7 +11,7 @@ pub enum LoadError {
     Server(reqwest::StatusCode),
     /// Deserialization error.
     #[error("serde error: {0}")]
-    Serde(#[source] serde_yaml::Error),
+    Serde(#[source] serde_yaml_bw::Error),
 }
 
 /// Load a meta URL and parse it as a YAML document.
@@ -37,7 +37,7 @@ where
 
     let bytes = res.bytes().await.map_err(LoadError::Reqwest)?;
 
-    let repo: T = serde_yaml::from_slice(&bytes).map_err(LoadError::Serde)?;
+    let repo: T = serde_yaml_bw::from_slice(&bytes).map_err(LoadError::Serde)?;
 
     Ok(repo)
 }

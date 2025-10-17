@@ -64,7 +64,7 @@ pub enum LoadingError {
     FileReading(std::io::Error, PathBuf),
     /// Error while parsing the file.
     #[error("parsing file {1}: {0}")]
-    Parsing(serde_yaml::Error, PathBuf),
+    Parsing(serde_yaml_bw::Error, PathBuf),
 }
 
 /// Load the sources from the given path.
@@ -152,7 +152,7 @@ where
             }
         };
 
-        let parsed = match serde_yaml::from_slice(&data) {
+        let parsed = match serde_yaml_bw::from_slice(&data) {
             Ok(v) => v,
             Err(err) => {
                 errors.push(LoadingError::Parsing(err, path));

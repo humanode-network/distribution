@@ -322,6 +322,6 @@ async fn install(args: Install) -> Result<(), eyre::Error> {
 async fn sources(args: Sources) -> Result<(), eyre::Error> {
     let Sources { sources_args } = args;
     let sources = prepare_sources(sources_args).await;
-    println!("{}", &serde_yaml::to_string(&sources)?);
+    println!("{}", &serde_yaml_bw::to_string(&sources)?);
     Ok(())
 }
