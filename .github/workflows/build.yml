@@ -105,7 +105,7 @@ jobs:
           printf "ARTIFACT_NAME=%s\n" "$ARTIFACT_NAME" >>"$GITHUB_ENV"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ env.ARTIFACT_NAME }}
           path: target/build-package/archives/*.tar.gz
