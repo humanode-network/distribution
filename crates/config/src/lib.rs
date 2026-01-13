@@ -16,7 +16,7 @@ pub mod dirs {
 
     /// The directory that contains files,
     /// each file with a list of URLs, each URL pointing to a manifest.
-    /// Manifest URLs can be dircetly handled by the resolver.
+    /// Manifest URLs can be directly handled by the resolver.
     pub const MANIFEST_URLS: &str = "manifestUrls.d";
 }
 
