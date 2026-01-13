@@ -3,7 +3,7 @@ set -euo pipefail
 
 DEST_DIR="$1"
 BUILD_TARGET_DIR="$2"
-ARCTIFACT_PREFIX="$3"
+ARTIFACT_PREFIX="$3"
 
 BUILD_ARCH="${BUILD_ARCH:-"$(rustc -vV | sed -n 's|host: ||p')"}"
 
@@ -35,7 +35,7 @@ mkdir -p "$BINARIES_DIR" "$ARCHIVES_DIR"
 
 for BINARY in "${BINARIES[@]}"; do
   FILE="${BINARY}${EXECUTABLE_EXTENSION}"
-  cp "${BUILD_TARGET_DIR}/${FILE}" "${BINARIES_DIR}/${ARCTIFACT_PREFIX}${FILE}"
-  tar -czvf- -C "$BINARIES_DIR" "${ARCTIFACT_PREFIX}${FILE}" \
-    >"${ARCHIVES_DIR}/${ARCTIFACT_PREFIX}${BINARY}-${BUILD_ARCH}.tar.gz"
+  cp "${BUILD_TARGET_DIR}/${FILE}" "${BINARIES_DIR}/${ARTIFACT_PREFIX}${FILE}"
+  tar -czvf- -C "$BINARIES_DIR" "${ARTIFACT_PREFIX}${FILE}" \
+    >"${ARCHIVES_DIR}/${ARTIFACT_PREFIX}${BINARY}-${BUILD_ARCH}.tar.gz"
 done
