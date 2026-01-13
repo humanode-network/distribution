@@ -58,12 +58,10 @@ jobs:
 
       - name: Archive the binaries for release
         env:
-          TARGET_DIR: ${{ matrix.plan.platform.buildTargetDir && format('{0}/release', matrix.plan.platform.buildTargetDir) || 'release' }}
-        run: |
-          ./build-utils/package \
-            target/build-package \
-            "target/$TARGET_DIR" \
-            ""
+          BUILD_TARGET_DIR: "target/${{ matrix.plan.platform.buildTargetDir && format('{0}/release', matrix.plan.platform.buildTargetDir) || 'release' }}"
+          DEST_DIR: "target/build-archives"
+          ARTIFACT_PREFIX: ""
+        run: ./build-utils/archive-binaries
 
       - name: Compute artifact name
         env:
@@ -76,11 +74,11 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: ${{ env.ARTIFACT_NAME }}
-          path: target/build-package/archives/*.tar.gz
+          path: target/build-archives/archives/*.tar.gz
 
       - name: Upload release archive
         uses: shogo82148/actions-upload-release-asset@v1
         if: inputs.release-artifact-upload-url != ''
         with:
           upload_url: ${{ inputs.release-artifact-upload-url }}
-          asset_path: target/build-package/archives/*.tar.gz
+          asset_path: target/build-archives/archives/*.tar.gz

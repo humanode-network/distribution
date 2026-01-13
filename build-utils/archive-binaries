@@ -1,11 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
-DEST_DIR="$1"
-BUILD_TARGET_DIR="$2"
-ARTIFACT_PREFIX="$3"
+DEST_DIR="${DEST_DIR?}"
+BUILD_TARGET_DIR="${BUILD_TARGET_DIR?}"
+ARTIFACT_PREFIX="${ARTIFACT_PREFIX?}"
 
-BUILD_ARCH="${BUILD_ARCH:-"$(rustc -vV | sed -n 's|host: ||p')"}"
+BUILD_ARCH="${BUILD_ARCH:-"$(rustc --print host-tuple)"}"
 
 if command -v grealpath &>/dev/null; then
   REALPATH="grealpath"
@@ -23,7 +23,11 @@ fi
 
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
-source build-info/binaries
+BINARIES=()
+
+while read -r BINARY; do
+  BINARIES+=("$BINARY")
+done < <(build-utils/list-bin-targets)
 
 mkdir -p "$DEST_DIR"
 
