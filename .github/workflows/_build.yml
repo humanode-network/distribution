@@ -1,42 +1,16 @@
-name: build
-
 on:
-  push:
-    tags:
-      - "v*.*.*"
-  schedule:
-    - cron: "0 20 * * 0"
-  workflow_dispatch:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/master' && github.event_name != 'merge_group' }}
+  workflow_call:
+    inputs:
+      release-artifact-upload-url:
+        required: false
+        type: string
+        description: The URL for release artifact uploads; if unset the release uploads are skipped.
 
 defaults:
   run:
     shell: bash
 
 jobs:
-  draft-release:
-    name: Create a release draft
-    if: startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-24.04
-    outputs:
-      release-id: ${{ steps.create-release.outputs.id }}
-      upload-url: ${{ steps.create-release.outputs.upload_url }}
-      html-url: ${{ steps.create-release.outputs.html_url }}
-    timeout-minutes: 50
-    permissions:
-      contents: write
-    steps:
-      - name: Create release
-        id: create-release
-        uses: ncipollo/release-action@v1
-        with:
-          allowUpdates: false
-          draft: true
-          generateReleaseNotes: true
-
   plan:
     name: Plan the execution
     runs-on: ubuntu-24.04
@@ -56,23 +30,17 @@ jobs:
   build:
     needs:
       - plan
-      - draft-release
-    if: ${{ always() && needs.plan.result == 'success' && (!startsWith(github.ref, 'refs/tags/') || needs.draft-release.result == 'success') }}
     strategy:
       matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
       fail-fast: false
-    name: ${{ matrix.plan.mode.platformIndependent == true && matrix.plan.mode.name || format('{0} / {1}', matrix.plan.platform.name, matrix.plan.mode.name) }}
+    name: |-
+      ${{ matrix.plan.mode.platformIndependent == true && matrix.plan.mode.name || format('{1} @ {0}', matrix.plan.platform.name, matrix.plan.mode.name) }}
     runs-on: ${{ matrix.plan.platform.os }}
     env: ${{ matrix.plan.platform.env }}
     timeout-minutes: 120
     permissions:
       contents: write
     steps:
-      - name: Job config
-        run: printf "%s\n" "$MATRIX_CONTEXT"
-        env:
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
-
       - name: Checkout
         uses: actions/checkout@v6
         timeout-minutes: 5
@@ -112,31 +80,7 @@ jobs:
 
       - name: Upload release archive
         uses: shogo82148/actions-upload-release-asset@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: inputs.release-artifact-upload-url != ''
         with:
-          upload_url: ${{ needs.draft-release.outputs.upload-url }}
+          upload_url: ${{ inputs.release-artifact-upload-url }}
           asset_path: target/build-package/archives/*.tar.gz
-
-  publish-release:
-    needs:
-      - draft-release
-      - build
-    name: Publish release
-    if: startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-24.04
-    timeout-minutes: 50
-    permissions:
-      contents: write
-    steps:
-      - name: Publish release
-        uses: actions/github-script@v8
-        env:
-          RELEASE_ID: ${{ needs.draft-release.outputs.release-id }}
-        with:
-          script: |
-            github.rest.repos.updateRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              release_id: process.env.RELEASE_ID,
-              draft: false
-            });
